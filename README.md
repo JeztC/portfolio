@@ -26,7 +26,7 @@ REACT_APP_GITHUB_STARRED=YOUR GITHUB API STARRED URL
 2. Open http://localhost:3000 in your browser to view the project
 
 Example of how site looks:
-![alt text](https://i.imgur.com/BXupj75.png)
+![alt text](https://i.imgur.com/nTD6yj5.png)
 
 Please don't hesitate to reach out if you have any questions or issues. 
 
