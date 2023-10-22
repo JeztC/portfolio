@@ -15,8 +15,6 @@
 
 # Sensitive information is here
 .env
-/src/assets
-/src/data.tsx
 
 # misc
 .DS_Store
