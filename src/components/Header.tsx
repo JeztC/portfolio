@@ -44,13 +44,13 @@ const StyledLink = styled(Link)`
       &.Mui-selected {
         background-color: inherit;
         color: #000 !important;  // use the !important flag to give this style higher precedence
-        border-bottom : 3px solid #1D9BF0 !important; // adds the indicator
+        border-bottom : 2px solid #1D9BF0 !important; // adds the indicator
       }
     ` : css`
       &.Mui-selected {
         background-color: inherit;
         color: #fff !important;  // use the !important flag to give this style higher precedence
-        border-bottom : 3px solid #1D9BF0 !important; // adds the indicator
+        border-bottom : 2px solid #1D9BF0 !important; // adds the indicator
       }
     `
   }}
@@ -118,7 +118,7 @@ const Header = () => {
     return (
         <HeaderWrapper>
             <div>
-                <StyledHeader>{process.env.REACT_APP_AUTHOR_NAME}</StyledHeader>
+                <StyledHeader>{process.env.REACT_APP_AUTHOR_NAME} Portfolio</StyledHeader>
             </div>
             <BottomNavigation
                 value={tabOpened}
@@ -142,8 +142,8 @@ const Header = () => {
                 />
                 <BottomNavigationAction
                     component={StyledLink}
-                    to="/projects"
-                    value="projects"
+                    to="/github"
+                    value="github"
                     label={'GitHub'}
                     icon={<GitHub />}
                 />

@@ -2,9 +2,10 @@ import React from 'react';
 import styled from "@emotion/styled";
 import {css} from "@emotion/react";
 import {useTheme} from "../themes/theme-context";
+import { GitHub } from '@mui/icons-material';
+import { Link } from '@mui/material';
 
 const StyledFooter = styled.footer`
-  display: flex;
   justify-content: flex-start;
   flex-direction: column;
   align-items: flex-start;
@@ -29,12 +30,16 @@ const StyledFooter = styled.footer`
 const Footer: React.FC = () => {
     return (
         <StyledFooter>
-            <p style={{margin: '0'}}>
-                © 2023 {process.env.REACT_APP_AUTHOR_NAME}
-            </p>
-            <p style={{margin: '0'}}>
+            <div style={{
+    display: 'flex',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+}}>
+    <GitHub /><span style={{ marginLeft: '3px' }}>Source code is free and open-source under GPL-3. Source code available at <Link href={`https://github.com/JeztC/portfolio`} target={`_blank`}>Github</Link></span>
+</div>  
+            <p style={{margin: '3px'}}>
                 🚀 Version 3.1.13 🚀
-            </p>
+            </p>            
         </StyledFooter>
     );
 }

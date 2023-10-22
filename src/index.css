@@ -90,6 +90,10 @@
     background-color: #3178C6;
 }
 
+.language-text.shell:before {
+    background-color: #89e051;
+}
+
 @-webkit-keyframes scaleAnimation {
     0% {
         opacity: 0;

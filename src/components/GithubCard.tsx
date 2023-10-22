@@ -5,7 +5,8 @@ import GithubIcon from "./GithubIcon";
 import '../index.css'
 import GroupIcon from '@mui/icons-material/Group';
 import {Star} from "@mui/icons-material";
-import CardMembershipIcon from '@mui/icons-material/CardMembership';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import moment from "moment/moment";
 
 interface Repository {
     id: number;
@@ -31,6 +32,7 @@ interface User {
     public_gists: number;
     starred_url: string;
     total_starred: number;
+    created_at: string;
 }
 
 const GitHubCard: React.FC = () => {
@@ -48,6 +50,7 @@ const GitHubCard: React.FC = () => {
         public_gists: 0,
         starred_url: '',
         total_starred: 0,
+        created_at: '1970-1-1T00:00:00Z'
     });
     const [repositories, setRepositories] = React.useState<Repository[]>([]);
     const [loading, setLoading] = React.useState<boolean>(true);
@@ -89,11 +92,11 @@ const GitHubCard: React.FC = () => {
                 boxSizing: 'border-box',
                 borderRadius: '5px',
             }}>
-                {/* Add the profile information panel */}
-                <Card style={{ width: 250, height: 'max-content', background : 'inherit', border: '1px solid rgb(35, 35, 35)' }}>
+                {loading ? <CircularProgress/> :
+                    <Card style={{ width: 250, height: 'max-content', background : 'inherit', border: '1px solid rgb(35, 35, 35)' }}>
                     <CardHeader
                         avatar={
-                            loading ? <CircularProgress/> : <img
+                            <img
                                 src={user.avatar_url}
                                 alt={`Avatar for ${user.login}`}
                                 style={{
@@ -114,20 +117,25 @@ const GitHubCard: React.FC = () => {
                         </Typography>
                         <Typography sx={{marginTop : '20px', marginBottom : '20px', fontSize : '18px', fontFamily : 'Segoe UI'}} color="#999999" variant="subtitle1">{user.bio} </Typography>
                         {/* Display the user's followers, following, repositories, and stars */}
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', paddingBottom : '10px' }}>
                             <GroupIcon style={{ color : "rgb(139, 148, 158)", marginRight: '5px' }} />
                             <Typography color="#999999" variant="body2">{user.followers} followers · {user.following} following </Typography>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <CardMembershipIcon fillRule="evenodd" aria-hidden="true" style={{ color : "#999999", marginRight: '5px' }}/>
-                            <Typography color="#999999" variant="body2">Repositories: {user.public_repos}</Typography>
+                        <div style={{ display: 'flex', alignItems: 'center', paddingBottom : '10px' }}>
+                            <GithubIcon/>
+                            <Typography style={{paddingLeft : '5px'}} color="#999999" variant="body2">Repositories: {user.public_repos}</Typography>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <Star style={{ color : "#999999", marginRight: '5px' }} />
+                        <div style={{ display: 'flex', alignItems: 'center', paddingBottom : '10px' }}>
+                            <Star style={{ color : "rgb(139, 148, 158)", marginRight: '5px' }} />
                             <Typography color="#999999" variant="body2">Stars: {user.total_starred}</Typography>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', paddingBottom : '10px' }}>
+                            <CalendarMonthIcon style={{ color : "rgb(139, 148, 158)", marginRight: '5px' }} />
+                            <Typography color="#999999" variant="body2">Registered: {moment(user.created_at).format('DD/MM/YYYY')}</Typography>
                         </div>
                     </CardContent>
                 </Card>
+                }
             </div>
             <Grid container overflow='auto' spacing={-60} marginTop={'40px'} marginLeft={'250px'} marginBottom={'5%'}>
                 {repositories.map((repository) => (

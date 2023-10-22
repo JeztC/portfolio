@@ -32,15 +32,14 @@ const Root = styled.div`
   width: 100%;
   height: 100%;
   flex-direction: row;
-  margin-top: 150px;
+  margin-top: 120px;
   margin-left: 250px;
 `
 
 const TabStyled = styled(Tabs)`
   border-right: 1px solid #2C394B;
   width: 200px;
-  max-width: 200px;
-  min-width: 200px;
+  height: 550px;
 `
 
 const EducationTab = styled(Tab)`
