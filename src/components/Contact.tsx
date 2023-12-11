@@ -45,7 +45,7 @@ const Contact = () => {
     })
 
     return (
-        <Container maxWidth="md" style={{marginTop : '100px'}}>
+        <Container maxWidth="md" style={{marginTop : '100px', marginBottom : '200px'}}>
 
             <Box overflow="hidden" style={{ paddingTop : '20px', paddingRight : '30px', paddingLeft : '30px', position: 'relative', minHeight: '300px', border: '1px solid #1D9BF0' }}>
                 <AnimatePresence>

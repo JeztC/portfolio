@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Card, CardContent, CardHeader, CircularProgress, Grid, Link, Typography} from '@mui/material';
+import {Card, CardContent, CardHeader, CircularProgress, Grid, Link, Typography, css} from '@mui/material';
 import axios from 'axios';
 import GithubIcon from "./GithubIcon";
 import '../index.css'
@@ -7,6 +7,8 @@ import GroupIcon from '@mui/icons-material/Group';
 import {Star} from "@mui/icons-material";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import moment from "moment/moment";
+import { useTheme } from '../themes/theme-context';
+import styled from "@emotion/styled";
 
 interface Repository {
     id: number;
@@ -35,6 +37,40 @@ interface User {
     created_at: string;
 }
 
+const StyledUserCard = styled(Card)`
+  display: flex;
+  box-shadow: none;
+  width: 250;
+  height: max-content;
+  background: inherit;
+  ${() => {
+    const currentTheme = useTheme().theme;
+    return currentTheme.palette.mode === 'light'
+            ? css`
+              border: 1px solid #D0D7DE;
+            ` : css`
+              border: 1px solid rgb(35, 35, 35);
+            `
+  }}
+`;
+
+const ProjectCard = styled(Card)`
+ background : inherit;
+ margin: 10px 0;
+ border-radius: 5%;
+ border-width: 1px;
+ box-shadow : none;
+  ${() => {
+    const currentTheme = useTheme().theme;
+    return currentTheme.palette.mode === 'light'
+            ? css`
+              border: 1px solid #D0D7DE;
+            ` : css`
+              border: 1px solid rgb(35, 35, 35);
+            `
+  }}
+`;
+
 const GitHubCard: React.FC = () => {
     const [user, setUser] = useState<User>({
         login: '',
@@ -54,7 +90,7 @@ const GitHubCard: React.FC = () => {
     });
     const [repositories, setRepositories] = React.useState<Repository[]>([]);
     const [loading, setLoading] = React.useState<boolean>(true);
-
+    
     useEffect(() => {
         const fetchUser = async () => {
             const result = await axios.get<User>(process.env.REACT_APP_GITHUB === undefined ? "" : process.env.REACT_APP_GITHUB);
@@ -87,13 +123,14 @@ const GitHubCard: React.FC = () => {
             <div style={{
                 display: 'flex',
                 justifyContent: 'center',
+                paddingTop : '50px',
                 marginBottom: '50px',
                 marginTop: '25px',
                 boxSizing: 'border-box',
                 borderRadius: '5px',
             }}>
                 {loading ? <CircularProgress/> :
-                    <Card style={{ width: 250, height: 'max-content', background : 'inherit', border: '1px solid rgb(35, 35, 35)' }}>
+                    <StyledUserCard>
                     <CardHeader
                         avatar={
                             <img
@@ -101,7 +138,7 @@ const GitHubCard: React.FC = () => {
                                 alt={`Avatar for ${user.login}`}
                                 style={{
                                     borderRadius: '50%',
-                                    borderColor: 'rgb(35, 35, 35)',
+                                    borderColor: 'rgb(31, 35, 40)',
                                     borderStyle: 'solid',
                                     borderWidth: '2px',
                                 }}
@@ -115,7 +152,7 @@ const GitHubCard: React.FC = () => {
                                 {user.login}
                             </Link>
                         </Typography>
-                        <Typography sx={{marginTop : '20px', marginBottom : '20px', fontSize : '18px', fontFamily : 'Segoe UI'}} color="#999999" variant="subtitle1">{user.bio} </Typography>
+                        <Typography sx={{marginTop : '20px', marginBottom : '20px', fontSize : '18px', fontFamily : 'Segoe UI'}} color="inherit" variant="subtitle1">{user.bio} </Typography>
                         {/* Display the user's followers, following, repositories, and stars */}
                         <div style={{ display: 'flex', alignItems: 'center', paddingBottom : '10px' }}>
                             <GroupIcon style={{ color : "rgb(139, 148, 158)", marginRight: '5px' }} />
@@ -134,23 +171,13 @@ const GitHubCard: React.FC = () => {
                             <Typography color="#999999" variant="body2">Registered: {moment(user.created_at).format('DD/MM/YYYY')}</Typography>
                         </div>
                     </CardContent>
-                </Card>
+                </StyledUserCard>
                 }
             </div>
-            <Grid container overflow='auto' spacing={-60} marginTop={'40px'} marginLeft={'250px'} marginBottom={'5%'}>
+            <Grid container spacing={2} style={{ marginTop: '40px', marginLeft: '250px', marginBottom: '5%' }}>
                 {repositories.map((repository) => (
-                    <Grid key={repository.id} item xs={4} style={{width: 300}}>
-                        <Card style={{
-                            background : 'inherit',
-                            width: 440,
-                            height: 150,
-                            margin: '10px 0',
-                            borderColor: 'rgb(35,35,35)',
-                            borderStyle: 'solid',
-                            borderRadius: '5%',
-                            borderWidth: '1px',
-                        }}
-                        >
+                    <Grid item xs={12} sm={6} md={5} key={repository.id}>
+                        <ProjectCard>
                             <CardHeader
                                 avatar={<GithubIcon />}
                                 title=
@@ -177,7 +204,7 @@ const GitHubCard: React.FC = () => {
                                     </Typography>
                                 )}
                             </CardContent>
-                        </Card>
+                        </ProjectCard>
                     </Grid>
                 ))}
             </Grid>

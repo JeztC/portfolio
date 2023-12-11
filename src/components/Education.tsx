@@ -31,15 +31,38 @@ const Root = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-  flex-direction: row;
+  ${() => {
+    const theme = useMuiTheme()
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+    return isMobile
+            ? css`
+    flex-direction: column;
+    margin-left: 20px;
+    padding-bottom: 100px;
+    ` : css`
+    margin-left: 250px;
+    flex-direction: row;
+    `
+  }}
   margin-top: 120px;
-  margin-left: 250px;
 `
 
 const TabStyled = styled(Tabs)`
-  border-right: 1px solid #2C394B;
-  width: 200px;
-  height: 550px;
+${() => {
+    const theme = useMuiTheme()
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+    return isMobile
+            ? css`
+    width: inherit;
+    height: inherit;
+    max-width: inherit;
+    min-width: inherit;
+    ` : css`
+    border-right: 1px solid #2C394B;
+    width: 200px;
+    height: 550px;
+    `
+  }}
 `
 
 const EducationTab = styled(Tab)`
@@ -47,19 +70,31 @@ const EducationTab = styled(Tab)`
     const currentTheme = useTheme().theme;
     return currentTheme.palette.mode === 'light'
         ? css`
-      &.Mui-selected {
-        color: #000 !important;
+        &.Mui-hover {
+            color: !#EAEDF1;
+        }
+        &.Mui-selected {
+            color: #000 !important;
+            background-color: #EAEDF1;
+        }
+        &:hover {
+            background-color: #EAEDF1;
+        }
+      ` : css`
+      &.Mui-hover {
+          color: #161A20 !important;
       }
-    ` : css`
       &.Mui-selected {
-        color: #fff !important;
+          color: #fff !important;
+          background-color: #161A20;
+      }
+      &:hover {
+          background-color: #161A20;
       }
     `
-}}
-'&:hover': {
-  background-color: #282828;
-},
-`
+  }}
+`;
+
 
 const TabShowMore = styled(ShowMoreText)`
   margin-top: 30px;
@@ -97,6 +132,7 @@ const Education = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
     const [value, setValue] = React.useState<number>(0)
     const [expand, setExpand] = React.useState<boolean>(false)
+    const iconFontSize = isMobile ? '37px' : '25px';
 
     const onClick = () => {
         setExpand(!expand)
@@ -112,7 +148,7 @@ const Education = () => {
                 orientation={isMobile ? 'horizontal' : 'vertical'}
                 value={value}
                 onChange={handleChange}
-                centered
+                centered={isMobile ? false : true}
             >
                 {education.map((elem) => (
                     <EducationTab
@@ -185,17 +221,17 @@ const Education = () => {
                             <Box mt={1}>
                                 {elem.links.website && (
                                     <StyledLink href={elem.links.website} target="_blank">
-                                        <Language fontSize="medium" />
+                                        <Language sx={{ fontSize: iconFontSize }} />
                                     </StyledLink>
                                 )}
                                 {elem.links.facebook && (
                                     <StyledLink href={elem.links.facebook} target="_blank">
-                                        <Facebook fontSize="medium" />
+                                        <Facebook sx={{ fontSize: iconFontSize }} />
                                     </StyledLink>
                                 )}
                                 {elem.links.instagram && (
                                     <StyledLink href={elem.links.instagram} target="_blank">
-                                        <Instagram fontSize="medium" />
+                                        <Instagram sx={{ fontSize: iconFontSize }} />
                                     </StyledLink>
                                 )}
                             </Box>
@@ -209,7 +245,8 @@ const Education = () => {
 
 const TabPanel: React.FC<{ children : ReactNode, value: number; index: number }> = (props) => {
     const { children, value, index, ...other } = props
-
+    const theme = useMuiTheme()
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
     return (
         <div
             role="tabpanel"
@@ -219,8 +256,8 @@ const TabPanel: React.FC<{ children : ReactNode, value: number; index: number }>
             {...other}
         >
             {value === index && (
-                <Box p={3}>
-                    <Typography>{children}</Typography>
+                <Box p={3} minHeight={isMobile ? 0 : "350px"}>
+                    <div>{children}</div>
                 </Box>
             )}
         </div>

@@ -90,6 +90,10 @@
     background-color: #3178C6;
 }
 
+.language-text.nix:before {
+    background-color: #7e7eff;
+}
+
 .language-text.shell:before {
     background-color: #89e051;
 }

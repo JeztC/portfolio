@@ -3,28 +3,32 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import styled from "@emotion/styled";
 import React from "react";
 import {Link, useLocation} from "react-router-dom";
-import {AccountCircle, School, ContactMail, GitHub, Link as LinkIcon} from "@mui/icons-material";
-import {IconButton, Menu, MenuItem} from "@mui/material";
+import {AccountCircle, School, ContactMail, GitHub, Link as LinkIcon, Menu as MenuIcon} from "@mui/icons-material";
+import {Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Menu, MenuItem, useMediaQuery} from "@mui/material";
 import LanguageIcon from '@mui/icons-material/Language';
 import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
 import {DarkModeToggle} from "../themes/DarkModeToggle";
 import {useTheme} from "../themes/theme-context";
 import {css} from "@emotion/react";
+import { useTheme as muiTheme } from "@mui/material/styles";
+
 
 const HeaderWrapper = styled.header`
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
   padding: 0 16px;
-  height: 64px;
-  position: sticky;
+  height: 58px;
+  width: 100%;
+  position: fixed;
   top: 0;
+  z-index: 1000;
   ${() => {
     const currentTheme = useTheme().theme;
     return currentTheme.palette.mode === 'light'
             ? css`
-              background-color: rgb(233, 228, 221);
+              background-color: #F2F2F2;
             ` : css`
               background-color: rgb(22, 27, 34);
             `
@@ -60,11 +64,11 @@ const StyledLink = styled(Link)`
     return currentTheme.palette.mode === 'light'
             ? css`
               &:hover {
-                background-color: #cbcbcb;
+                background-color: #EAEDF1;
               }
             ` : css`
     &:hover {
-        background-color: #282828;
+        background-color: #161A20;
       }
     `
   }}
@@ -90,6 +94,19 @@ const StyledHeader = styled.header`
   }};
 `;
 
+const StyledDrawer = styled.div`
+  flex-shrink: 0;
+  width: 250px;
+  height: 1000px;
+  padding: 16px;
+  background-color: ${() => {
+    const currentTheme = useTheme().theme;
+    return currentTheme.palette.mode === 'light'
+            ? '#fff'
+            : '#161B22'
+  }};
+`;
+
 
 const Header = () => {
     const [, setValue] = React.useState<string>('about')
@@ -97,6 +114,17 @@ const Header = () => {
     const { t } = useTranslation();
     const location = useLocation()
     const tabOpened = location === null ? 'about' : location.pathname.replace('/', '')
+    const theme = muiTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
+
+    const handleDrawerOpen = () => {
+        setIsDrawerOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+        setIsDrawerOpen(false);
+    };
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
         setValue(newValue);
@@ -116,55 +144,47 @@ const Header = () => {
     };
 
     return (
-        <HeaderWrapper>
-            <div>
-                <StyledHeader>{process.env.REACT_APP_AUTHOR_NAME} Portfolio</StyledHeader>
-            </div>
-            <BottomNavigation
-                value={tabOpened}
-                onChange={handleChange}
-                showLabels
-                style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex', justifyContent: 'center' }}
-            >
-                <BottomNavigationAction
-                    component={StyledLink}
-                    to="/about"
-                    label={t('menu_about')}
-                    value="about"
-                    icon={<AccountCircle />}
-                />
-                <BottomNavigationAction
-                    component={StyledLink}
-                    to="/education"
-                    value="education"
-                    label={t('menu_education')}
-                    icon={<School />}
-                />
-                <BottomNavigationAction
-                    component={StyledLink}
-                    to="/github"
-                    value="github"
-                    label={'GitHub'}
-                    icon={<GitHub />}
-                />
-                <BottomNavigationAction
-                    component={StyledLink}
-                    to="/contact"
-                    value="contact"
-                    label={t('menu_contact')}
-                    icon={<ContactMail />}
-                />
-                <BottomNavigationAction
-                    component={StyledLink}
-                    to="/links"
-                    value="links"
-                    label={t('menu_links')}
-                    icon={<LinkIcon />}
-                />
-            </BottomNavigation>
-            <DarkModeToggle/>
+      <HeaderWrapper>
+        <StyledHeader>{process.env.REACT_APP_AUTHOR_NAME} Portfolio</StyledHeader>
+          {isMobile ? 
+                <>
+                <IconButton onClick={handleDrawerOpen} style={{ marginRight: '10px' }}>
+                    <MenuIcon style={{ fontSize: '37px' }} />
+                </IconButton>
+                <Drawer
+                    anchor="left"
+                    open={isDrawerOpen}
+                    onClose={handleDrawerClose}
+                >
+                    <StyledDrawer>
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                            <List>
+                                <ListItem button component={Link} to="/about" onClick={handleDrawerClose}>
+                                    <ListItemIcon><AccountCircle /></ListItemIcon>
+                                    <ListItemText primary={t('menu_about')} />
+                                </ListItem>
+                                <ListItem button component={Link} to="/education" onClick={handleDrawerClose}>
+                                    <ListItemIcon><School /></ListItemIcon>
+                                    <ListItemText primary={t('menu_education')} />
+                                </ListItem>
+                                <ListItem button component={Link} to="/github" onClick={handleDrawerClose}>
+                                    <ListItemIcon><GitHub /></ListItemIcon>
+                                    <ListItemText primary={"Github"} />
+                                </ListItem>
+                                <ListItem button component={Link} to="/contact" onClick={handleDrawerClose}>
+                                    <ListItemIcon><ContactMail /></ListItemIcon>
+                                    <ListItemText primary={t('menu_contact')} />
+                                </ListItem>
+                                <ListItem button component={Link} to="/links" onClick={handleDrawerClose}>
+                                    <ListItemIcon><LinkIcon /></ListItemIcon>
+                                    <ListItemText primary={t('menu_links')} />
+                                </ListItem>
+                            </List>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <DarkModeToggle/>
             <IconButton color="secondary" onClick={handleLanguageMenuOpen} style={{ marginBottom : '10px' }}>
-                <LanguageIcon />
+                <LanguageIcon style={{ fontSize: '37px' }}/>
             </IconButton>
             <Menu
                 anchorEl={languageMenuAnchor}
@@ -175,8 +195,70 @@ const Header = () => {
                 <LanguageMenuItem onClick={() => handleLanguageChange('fi')}>Finnish</LanguageMenuItem>
                 <LanguageMenuItem onClick={() => handleLanguageChange('en')}>English</LanguageMenuItem>
             </Menu>
-        </HeaderWrapper>
-    );
+                </div>
+                </StyledDrawer>
+                </Drawer>
+            </>
+ : <BottomNavigation
+              value={tabOpened}
+              onChange={handleChange}
+              showLabels
+              style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex', justifyContent: 'center' }}
+          >
+              <BottomNavigationAction
+                  component={StyledLink}
+                  to="/about"
+                  label={t('menu_about')}
+                  value="about"
+                  icon={<AccountCircle />}
+              />
+              <BottomNavigationAction
+                  component={StyledLink}
+                  to="/education"
+                  value="education"
+                  label={t('menu_education')}
+                  icon={<School />}
+              />
+              <BottomNavigationAction
+                  component={StyledLink}
+                  to="/github"
+                  value="github"
+                  label={'GitHub'}
+                  icon={<GitHub />}
+              />
+              <BottomNavigationAction
+                  component={StyledLink}
+                  to="/contact"
+                  value="contact"
+                  label={t('menu_contact')}
+                  icon={<ContactMail />}
+              />
+              <BottomNavigationAction
+                  component={StyledLink}
+                  to="/links"
+                  value="links"
+                  label={t('menu_links')}
+                  icon={<LinkIcon />}
+              />
+          </BottomNavigation>}
+          {!isMobile ?
+        <div>           
+          <DarkModeToggle/>
+          <IconButton color="secondary" onClick={handleLanguageMenuOpen} style={{ marginBottom : '10px' }}>
+              <LanguageIcon />
+          </IconButton>
+          <Menu
+              anchorEl={languageMenuAnchor}
+              keepMounted
+              open={Boolean(languageMenuAnchor)}
+              onClose={handleLanguageMenuClose}
+          >
+              <LanguageMenuItem onClick={() => handleLanguageChange('fi')}>Finnish</LanguageMenuItem>
+              <LanguageMenuItem onClick={() => handleLanguageChange('en')}>English</LanguageMenuItem>
+          </Menu> 
+          </div> : <div/>}
+      </HeaderWrapper>
+  );
 }
 
 export default Header;

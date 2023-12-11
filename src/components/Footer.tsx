@@ -15,12 +15,13 @@ const StyledFooter = styled.footer`
   bottom: 0;
   border-top: 1px solid grey;
   padding: 10px 16px;
+  z-index: 1000;
 
   ${() => {
     const currentTheme = useTheme().theme;
     return currentTheme.palette.mode === 'light'
             ? css`
-        background-color: rgb(233, 228, 221);
+        background-color: #F2F2F2;
     ` : css`
         background-color: rgb(22, 27, 34);
     `

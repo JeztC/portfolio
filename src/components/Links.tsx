@@ -1,15 +1,30 @@
 import {Email, GitHub} from "@mui/icons-material";
-import React from "react";
 import Icon from "./Icon";
 import styled from "@emotion/styled";
 import {useTranslation} from "react-i18next";
+import {css} from "@emotion/react";
+import {
+    useTheme as useMuiTheme,
+} from '@mui/material'
+import { useMediaQuery } from "@mui/material";
 
 const LinksContainer = styled.div`
+${() => {
+    const theme = useMuiTheme()
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+    return isMobile
+            ? css`
+    flex-direction: column;
+    margin-bottom: 150px;
+    padding-top: 40px;
+    ` : css`
+    padding-top: 150px;
+    flex-direction: row;
+    `
+  }}
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 150px;
-  flex-direction: row;
 `
 
 const Box = styled.div`
