@@ -2,6 +2,12 @@
 
 Welcome to my open source portfolio built using React with npm, TypeScript and MUI. Anyone can use and modify this code to create their own portfolio website.
 
+## System Requirements and Required Applications
+1. Windows, Linux, Mac
+2. NodeJS
+3. A text editor such as Webstorm or VSCode
+4. Firefox or Chrome/Chromium
+
 ## Installation
 
 1. Clone the repository from ``https://github.com/JeztC/jesseportfolio.git``
