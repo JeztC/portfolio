@@ -1,4 +1,4 @@
-# Portfolio
+# Portfolio Documentation
 
 Welcome to my open source portfolio built using React with npm, TypeScript and MUI. Anyone can use and modify this code to create their own portfolio website.
 
