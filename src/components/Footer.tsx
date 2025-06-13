@@ -37,10 +37,7 @@ const Footer: React.FC = () => {
     flexWrap: 'wrap',
 }}>
     <GitHub /><span style={{ marginLeft: '3px' }}>Source code is free and open-source under GPL-3. Source code available at <Link href={`https://github.com/JeztC/portfolio`} target={`_blank`}>Github</Link></span>
-</div>  
-            <p style={{margin: '3px'}}>
-                🚀 Version 3.1.13 🚀
-            </p>            
+</div>
         </StyledFooter>
     );
 }

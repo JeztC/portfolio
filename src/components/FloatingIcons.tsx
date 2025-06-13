@@ -14,10 +14,10 @@ const IconContainer = styled.div`
 const FloatingIcons: React.FC = () => {
     return (
         <IconContainer>
-            <Icon size={70} href={process.env.REACT_APP_GITHUB_PROFILE} target="_blank">
+            <Icon size={70} href="https://github.com/JeztC/" target="_blank">
                 <GitHub />
             </Icon>
-            <Icon size={70} href={`mailto:${process.env.REACT_APP_EMAIL}`} target="_blank">
+            <Icon size={70} href={`mailto:jesse.lagland@gmail.com`} target="_blank">
                 <Email />
             </Icon>
         </IconContainer>

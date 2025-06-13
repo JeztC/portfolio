@@ -17,6 +17,8 @@ import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import './index.css'
 import {darkTheme, lightTheme} from "./themes/theme-context";
 import GithubCard from "./components/GithubCard";
+import Projects from "./components/Projects";
+import {GlobalStyles} from "@mui/material";
 
 const App = () => {
     const initialTheme = localStorage.getItem('mode') === 'light' ? lightTheme : darkTheme;
@@ -53,14 +55,13 @@ const App = () => {
                                     <Route path="/education" element={<Education/>} />
                                     <Route path="/contact" element={<Contact/>} />
                                     <Route path="/links" element={<Links/>} />
+                                    <Route path="/projects" element={<Projects/>} />
                                     <Route path="/github" element={<GithubCard/>} />
                                     <Route path="/" element={<Navigate replace to="/about" />} />
                                 </Routes>
                             </CSSTransition>
                         </TransitionGroup>
-                        <Footer/>
                     </Fragment>
-                    <FloatingIcons />
                 </Router>
             </ThemeContext.Provider>
         </ThemeProvider>
